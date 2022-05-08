@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Sidebar from "../components/Sidebar";
+import Rightbar from "../components/Rightbar";
 
 
 export default function Home() {
@@ -17,7 +18,7 @@ export default function Home() {
       </Link>
 
       <div className="rightBar">
-        rightBar
+        <Rightbar />
       </div>
 
     </div>

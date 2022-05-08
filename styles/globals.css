@@ -48,3 +48,7 @@ a {
   color: white;
   height: 100vh;
 }
+
+.mainWindow {
+  width: 800px;
+}
