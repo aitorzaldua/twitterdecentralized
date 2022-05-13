@@ -1,9 +1,8 @@
 import styles from "../styles/MainContent.module.css";
 import Image from "next/image";
 import { TextArea, Icon } from "web3uikit";
-import { useState, useRef, createRef } from "react";
+import { useState, useRef } from "react";
 import TweetinFeed from "../components/TweetinFeed";
-import profilePic  from "../public/images/profilePic01.png";
 
 export default function MainContent() {
   const inputFile = useRef(null);
@@ -23,7 +22,7 @@ export default function MainContent() {
       <div className={styles.pageIdentify}>Home</div>
       <div className={styles.profileTweet}>
         <Image
-          src={profilePic}
+          src="/images/profilePic01.png"
           className={styles.profilePic}
           width={50}
           height={50}
@@ -44,7 +43,6 @@ export default function MainContent() {
               className={styles.tweetImg}
               width={400}
               height={150}
-              layout="responsive"
               alt="tweetImage"
             ></Image>
           )}

@@ -10,23 +10,42 @@ import TweetinFeed from "../components/TweetinFeed";
 export default function Profile() {
   return (
     <>
-    <div className="page">
+      <div className="page">
         <div className="sideBar">
           <Sidebar />
         </div>
 
-      <div className={styles.pageIdentify}>Profile</div>
-      <img src="/images/defaultBanner.png" className={styles.profileBanner}></img>
-      <img
-          src="/images/profilePic01.png"
-          className={styles.profilePFP}
-          alt="pic"
-        ></img>
-   
+        <div className={styles.mainContent}>
+          <div className={styles.pageIdentify}>Profile</div>
+          <Image
+            className={styles.profileBanner}
+            src={banner}
+            height={20}
+            width={100}
+            layout="responsive"
+            alt="default Banner"
+          ></Image>
+          <div className={styles.pfpContainer}>
+            <img
+              src="/images/profilePic01.png"
+              className={styles.profilePFP}
+              alt="pic"
+            ></img>
+            <div className={styles.profileName}>My Name</div>
+            <div className={styles.profileWallet}>0x456..d78</div>
+            <Link href={"/"}>
+              <div className={styles.profileEdit}>Edit profile</div>
+            </Link>
+            <div className={styles.profileBio}>Your Average Web3 Mage</div>
+            <div className={styles.profileTabs}>
+          <div className={styles.profileTab}>Your Tweets</div>
+        </div>
+          </div>
+          <TweetinFeed profile={true}></TweetinFeed>
+        </div>
+        
 
-
-
-      <div className="rightBar">
+        <div className="rightBar">
           <Rightbar />
         </div>
       </div>

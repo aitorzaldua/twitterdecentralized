@@ -1,3 +1,6 @@
+.mainContent {
+    width: 40%;
+}
 .pageIdentify{
     max-width: 100%;
     padding:20px;
@@ -8,6 +11,8 @@
     font-weight: bold;
     font-size: 20px;
     z-index: 999;
+    display: flex;
+    justify-content: flex-start;
 }
 
 .profileBanner {
@@ -66,15 +71,19 @@
     font-weight: 500;
 }
 
+.profileEditContainer{
+    display: flex;
+    justify-content: flex-end;
+}
 .profileEdit {
     color: white;
     position: relative;
     top:-160px;
-    left:650px;
+    left:190px;
     font-size: 16px;
     font-weight: bold;
     border: 0.5px solid white;
-    width: 100px;
+    width: 115px;
     justify-content: center;
     display:flex;
     padding: 10px 10px;
