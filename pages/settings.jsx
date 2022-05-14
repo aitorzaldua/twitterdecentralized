@@ -8,13 +8,24 @@ import pfp2 from "../public/images/pfp2.png";
 import pfp3 from "../public/images/pfp3.png";
 import pfp4 from "../public/images/pfp4.png";
 import pfp5 from "../public/images/pfp5.png";
+import banner from "../public/images/defaultBanner.png";
 import Image from "next/image";
 import { useState, useRef } from "react";
 
 export default function Settings() {
   const pfps = [pfp1, pfp2, pfp3, pfp4, pfp5];
   const [selectedPFP, setSelectedPFP] = useState();
- 
+  const inputFile = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(banner);
+
+  const onBannerClick = () => {
+    inputFile.current.click();
+  };
+
+  const changeHandler = (event) => {
+    const img = event.target.files[0];
+    setSelectedFile(URL.createObjectURL(img));
+  };
 
   return (
     <>
@@ -41,29 +52,60 @@ export default function Settings() {
 
             <div className={styles.pfp}>
               Profile Image (Your NFTs)
-
               <div className={styles.pfpOptions}>
                 {pfps.map((e, i) => {
                   return (
                     <>
                       <Image
                         src={e}
-                        className={selectedPFP === e ?
-                          "pfpOptionSelected"
-                          :
-                          styles.pfpOption
+                        className={
+                          selectedPFP === e
+                            ? styles.pfpOptionSelected
+                            : styles.pfpOption
                         }
                         width={110}
                         height={110}
                         layout="fixed"
-                        priority
                         alt=""
-                        onClick={() => {setSelectedPFP(pfps[i]); console.log("id: ",i, "selectedPFP: ", selectedPFP, "pfps[i]: ", pfps[i]);}}
+                        onClick={() => {
+                          setSelectedPFP(pfps[i]);
+                          console.log(
+                            "id: ",
+                            i,
+                            "selectedPFP: ",
+                            selectedPFP,
+                            "pfps[i]: ",
+                            pfps[i]
+                          );
+                        }}
                       ></Image>
                     </>
                   );
                 })}
               </div>
+            </div>
+            <div className={styles.pfp}>
+              Profile Banner
+              <div className={styles.pfpOptions}>
+                <Image
+                  src={selectedFile}
+                  onClick={onBannerClick}
+                  className={styles.banner}
+                  height={200}
+                  width={700}
+                  layout="fixed"
+                  alt=""
+                ></Image>
+                <input
+                type="file"
+                name="file"
+                ref={inputFile}
+                onChange={changeHandler}
+                style={{ display: "none" }} />
+              </div>
+            </div>
+            <div className={styles.save}>
+              Save 
             </div>
           </div>
         </div>
