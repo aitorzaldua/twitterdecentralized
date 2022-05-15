@@ -3,20 +3,49 @@ import Sidebar from "../components/Sidebar";
 import Rightbar from "../components/Rightbar";
 import styles from "../styles/Settings.module.css";
 import { Input } from "web3uikit";
-import pfp1 from "../public/images/pfp1.png";
-import pfp2 from "../public/images/pfp2.png";
-import pfp3 from "../public/images/pfp3.png";
-import pfp4 from "../public/images/pfp4.png";
-import pfp5 from "../public/images/pfp5.png";
 import banner from "../public/images/defaultBanner.png";
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useMoralis, useMoralisWeb3Api } from "react-moralis";
 
 export default function Settings() {
-  const pfps = [pfp1, pfp2, pfp3, pfp4, pfp5];
+  
+  const [pfps, setPfps] = useState([]);
   const [selectedPFP, setSelectedPFP] = useState();
   const inputFile = useRef(null);
   const [selectedFile, setSelectedFile] = useState(banner);
+
+  const [theFile, setTheFile] = useState(); 
+  const [userName, setUserName] = useState();
+  const [bio, setBio] = useState();
+
+  const { Moralis, isAuthenticated, account } = useMoralis();
+  const Web3Api = useMoralisWeb3Api();
+  const appId = process.env.NEXT_PUBLIC_APP_ID;
+  const serverUrl= process.env.NEXT_PUBLIC_SERVER_URL;
+  Moralis.start({ serverUrl, appId});
+
+  const resolveLink = (url) => {
+    if (!url || !url.includes("ipfs://")) return url;
+    return url.replace("ipfs://", "https://gateway.ipfs.io/ipfs");
+  };
+
+  useEffect(() => {
+    const fetchNFTs = async () => {
+      const options = {
+        chain: "mumbai",
+        address: account,
+      };
+
+      const mumbaiNFTs = await Web3Api.account.getNFTs(options);
+      const images = mumbaiNFTs.result.map(
+        (e) => resolveLink(JSON.parse(e.metadata)?.image)
+      );
+      setPfps(images);
+    }
+    fetchNFTs();
+
+  }, [isAuthenticated, account]);
 
   const onBannerClick = () => {
     inputFile.current.click();
@@ -24,7 +53,38 @@ export default function Settings() {
 
   const changeHandler = (event) => {
     const img = event.target.files[0];
+    setTheFile(img);
     setSelectedFile(URL.createObjectURL(img));
+  };
+
+  //Query the username, bio ..all settings from Moralis DB
+  const saveEdits = async () => {
+    const User = Moralis.Object.extend("_User");
+    const query = new Moralis.Query(User);
+    const myDetails = await query.first();
+
+    if (bio) {
+      myDetails.set("bio", bio);
+    }
+
+    if (selectedPFP){
+      myDetails.set("pfp", selectedPFP);
+    }
+
+    if (userName) {
+      myDetails.set("username", userName);
+    }
+
+    //For the banner, we upload it to IPFS
+    if (theFile) {
+      const data = theFile;
+      const file = new Moralis.File(data.name, data);
+      await file.saveIPFS();
+      myDetails.set("banner", file.ipfs());
+    }
+
+    await myDetails.save();
+    window.location.reload();
   };
 
   return (
@@ -42,12 +102,14 @@ export default function Settings() {
               name="NameChange"
               width="100%"
               labelBgColor="#141d26"
+              onChange={(e) => setUserName(e.target.value)}
             ></Input>
             <Input
               label="Bio"
               name="bioChange"
               width="100%"
               labelBgColor="#141d26"
+              onChange={(e) => setBio(e.target.value)}
             ></Input>
 
             <div className={styles.pfp}>
@@ -97,15 +159,16 @@ export default function Settings() {
                   alt=""
                 ></Image>
                 <input
-                type="file"
-                name="file"
-                ref={inputFile}
-                onChange={changeHandler}
-                style={{ display: "none" }} />
+                  type="file"
+                  name="file"
+                  ref={inputFile}
+                  onChange={changeHandler}
+                  style={{ display: "none" }}
+                />
               </div>
             </div>
-            <div className={styles.save}>
-              Save 
+            <div className={styles.save} onClick={() => saveEdits()}>
+              Save
             </div>
           </div>
         </div>

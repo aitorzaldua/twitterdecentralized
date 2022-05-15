@@ -3,11 +3,10 @@ const nextConfig = {
   reactStrictMode: true,
 }
 
-module.exports = nextConfig
+/* module.exports = nextConfig */
 
-/* ???
 module.exports = {
   images: {
-    domains: ['ipfs.moralis.io'],
+    domains: ['ipfs.moralis.io', 'moralis.io'],
   },
-} */
+} 
