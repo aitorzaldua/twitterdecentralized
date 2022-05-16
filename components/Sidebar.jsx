@@ -2,7 +2,7 @@ import styles from "../styles/Sidebar.module.css";
 import Link from "next/link";
 import { Icon } from "web3uikit";
 import { useMoralis } from "react-moralis";
-import banner from "../public/images/defaultBanner.png";
+import banner from "../public/images/defaultBanner.png"; 
 
 function Sidebar() {
   const { Moralis } = useMoralis();

@@ -42,8 +42,7 @@ export default function Profile() {
               alt="pic"
             ></img>
             <div className={styles.profileName}>{user.attributes.username.slice(0, 6) }</div>
-            <div className={styles.profileWallet}>{user.attributes.ethAddress.slice(0, 5)}...
-            {user.attributes.ethAddress.slice(38)}</div>
+            <div className={styles.profileWallet}>{user.attributes.ethAddress.slice(0, 5)}...{user.attributes.ethAddress.slice(38)}</div>
             <Link href={"/"}>
               <div className={styles.profileEdit}>Edit profile</div>
             </Link>
