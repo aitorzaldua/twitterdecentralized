@@ -36,33 +36,15 @@ export default function MainContent() {
     }
 
     let options = {
-      contractAddress: "0xc4d2652155135F7F0fdAcb2069426df39640d010",
+      contractAddress: process.env.NEXT_CONTRACT,
       functionName: "addTweet",
-      abi: [{
-        "inputs": [
-          {
-            "internalType": "string",
-            "name": "tweetTxt",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "tweetImg",
-            "type": "string"
-          }
-        ],
-        "name": "addTweet",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      }],
+      abi: process.env.NEXT_ABI,
       params: {
         tweetTxt: tweet,
         tweetImg: img,
       },
       msgValue: Moralis.Units.ETH(1),
     }
-
 
     //Storing also into Moralis DB
     await contractProcessor.fetch({

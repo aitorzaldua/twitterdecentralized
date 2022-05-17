@@ -19,7 +19,6 @@ export default function MainContent() {
   const [theFile, setTheFile] = useState();
   const [tweet, setTweet] = useState();
 
-
   //Store tweets into Matic Blockchain DB
   async function maticTweet() {
 
@@ -36,26 +35,9 @@ export default function MainContent() {
     }
 
     let options = {
-      contractAddress: "0xc4d2652155135F7F0fdAcb2069426df39640d010",
+      contractAddress: process.env.NEXT_CONTRACT,
       functionName: "addTweet",
-      abi: [{
-        "inputs": [
-          {
-            "internalType": "string",
-            "name": "tweetTxt",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "tweetImg",
-            "type": "string"
-          }
-        ],
-        "name": "addTweet",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      }],
+      abi: process.env.NEXT_ABI,
       params: {
         tweetTxt: tweet,
         tweetImg: img,
@@ -63,15 +45,13 @@ export default function MainContent() {
       msgValue: Moralis.Units.ETH(1),
     }
 
-
-    //Storing also into Moralis DB
     await contractProcessor.fetch({
       params: options,
       onSuccess: () => {
         saveTweet();
       },
       onError: (error) => {
-        console.log("error");
+        console.log(error.data.message)
       }
     });
 
@@ -167,7 +147,10 @@ export default function MainContent() {
             </div>
             <div className={styles.tweetOptions}>
               <div className={styles.tweet} onClick={saveTweet}>Tweet</div>
-              <div className={styles.tweet} onClick={maticTweet} style={{ backgroundColor: "#8247e5" }}>
+              <div
+                className={styles.tweet}
+                style={{ backgroundColor: "#8247e5" }}
+              >
                 <Icon fill="#ffffff" size={20} svg="matic"></Icon>
               </div>
             </div>

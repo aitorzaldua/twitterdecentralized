@@ -22,6 +22,7 @@ export default function MainContent() {
 
   //Store tweets into Matic Blockchain DB
   async function maticTweet() {
+    console.log("calling the fucntion");
 
     if (!tweet) return;
 
@@ -38,24 +39,7 @@ export default function MainContent() {
     let options = {
       contractAddress: "0xc4d2652155135F7F0fdAcb2069426df39640d010",
       functionName: "addTweet",
-      abi: [{
-        "inputs": [
-          {
-            "internalType": "string",
-            "name": "tweetTxt",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "tweetImg",
-            "type": "string"
-          }
-        ],
-        "name": "addTweet",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      }],
+      abi: process.env.NEXT_ABI,
       params: {
         tweetTxt: tweet,
         tweetImg: img,
@@ -63,6 +47,7 @@ export default function MainContent() {
       msgValue: Moralis.Units.ETH(1),
     }
 
+    console.log(contractAddress);
 
     //Storing also into Moralis DB
     await contractProcessor.fetch({

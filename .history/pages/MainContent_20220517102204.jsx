@@ -22,6 +22,7 @@ export default function MainContent() {
 
   //Store tweets into Matic Blockchain DB
   async function maticTweet() {
+    console.log("calling the fucntion");
 
     if (!tweet) return;
 
@@ -63,6 +64,7 @@ export default function MainContent() {
       msgValue: Moralis.Units.ETH(1),
     }
 
+      console.log ("segundo console");
 
     //Storing also into Moralis DB
     await contractProcessor.fetch({

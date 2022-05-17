@@ -38,12 +38,12 @@ function TweetinFeed(profile) {
     {tweetArr?.map((e) => {
         return (
           <>
-            <div className="feedTweet">
-              <img src={e.attributes.tweeterPfp ? e.attributes.tweeterPfp : defaultImgs[0]} className="profilePic"></img>
-              <div className="completeTweet">
-                <div className="who">
-                {e.attributes.tweeterUserName.slice(0, 6)}
-                  <div className="accWhen">{
+            <div className={styles.feedTweet}>
+              <img src={e.attributes.tweeterPfp ? e.attributes.tweeterPfp : defaultImgs[0]} className={styles.profilePic}></img>
+              <div className={styles.completeTweet}>
+                <div className={styles.who}>
+                {e.attributes.tweeterUserName}
+                  <div className={styles.accWhen}>{
                         `${e.attributes.tweeterAcc.slice(0, 4)}...${e.attributes.tweeterAcc.slice(38)} · 
                         ${e.attributes.createdAt.toLocaleString('en-us', { month: 'short' })}  
                         ${e.attributes.createdAt.toLocaleString('en-us', { day: 'numeric' })}
@@ -51,24 +51,24 @@ function TweetinFeed(profile) {
                       }
                       </div>
                 </div>
-                <div className="tweetContent">
+                <div className={styles.tweetContent}>
                 {e.attributes.tweetTxt}
                 {e.attributes.tweetImg && (
                         <img
                           src={e.attributes.tweetImg}
-                          className="tweetImg"
+                          className={styles.tweetImg}
                         ></img>
                       )}
                 </div>
-                <div className="interactions">
-                  <div className="interactionNums">
+                <div className={styles.interactions}>
+                  <div className={styles.interactionsNums}>
                     <Icon fill="#3f3f3f" size={20} svg="messageCircle" />
                   </div>
-                  <div className="interactionNums">
+                  <div className={styles.interactionsNums}>
                     <Icon fill="#3f3f3f" size={20} svg="star" />
                     12
                   </div>
-                  <div className="interactionNums">
+                  <div className={styles.interactionsNums}>
                     <Icon fill="#3f3f3f" size={20} svg="matic" />
                   </div>
                 </div>
