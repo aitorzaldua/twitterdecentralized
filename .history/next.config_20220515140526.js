@@ -9,4 +9,4 @@ module.exports = {
   images: {
     domains: ['ipfs.moralis.io', 'moralis.io'],
   },
-}
+} 
