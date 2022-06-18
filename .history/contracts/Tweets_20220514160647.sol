@@ -24,6 +24,7 @@ contract tweets {
         string tweetImg
     );
 
+    //To store (the tweets) in javascript we use arrays
     //To store in solidity we use mapping
     mapping(uint256 => tweet) Tweets;
 
